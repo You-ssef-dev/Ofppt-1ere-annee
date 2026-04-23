@@ -1,0 +1,66 @@
+CREATE DATABASE IF NOT EXISTS tramwayRabat;
+USE tramwayRabat;
+
+--------------------------
+
+-- Table Arrondissement
+CREATE TABLE Arrondissement (
+    numArrondissement INT PRIMARY KEY,
+    superficie DOUBLE,
+    nbrHabitants INT
+);
+
+-- Table Station
+CREATE TABLE Station (
+    numStation INT PRIMARY KEY,
+    nomStation VARCHAR(45) NOT NULL,
+    numArrondissement INT,
+    FOREIGN KEY (numArrondissement) REFERENCES Arrondissement(numArrondissement)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- Table Ligne
+CREATE TABLE Ligne (
+    numLigne INT PRIMARY KEY,
+    nbrStations INT,
+    nbrPassager2018 INT,
+    dateMiseService DATE,
+    stationDepart INT,
+    stationArrivee INT,
+    FOREIGN KEY (stationDepart) REFERENCES Station(numStation)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    FOREIGN KEY (stationArrivee) REFERENCES Station(numStation)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+
+-- Table Travaux
+CREATE TABLE Travaux (
+    numArrondissement INT,
+    numLigne INT,
+    dateDebut DATE,
+    duree DOUBLE,
+    PRIMARY KEY (numArrondissement, numLigne),
+    FOREIGN KEY (numArrondissement) REFERENCES Arrondissement(numArrondissement)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (numLigne) REFERENCES Ligne(numLigne)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+---------------------------------
+👉️Ajouter une colonne nomArrond qui contiendra le nom des arrondissements:
+
+ALTER TABLE Arrondissement
+ADD nomArrond VARCHAR(45);
+
+---------------------------------
+👉️Renommer la colonne nbrPassager2018 par nbrPassager2020:
+
+ALTER TABLE Ligne
+CHANGE nbrPassager2018 nbrPassager2020 INT;
+
+

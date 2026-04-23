@@ -1,0 +1,108 @@
+-- 1. Afficher tous les stagiaires.
+SELECT * FROM Stagiaire;
+
+-- 2. Afficher tous les modules.
+SELECT * FROM Module;
+
+-- 3. Afficher tous les modules triés par ordre alphabétique des intitulés.
+SELECT * FROM Module ORDER BY intitule ASC;
+
+-- 4. Quels sont les noms et prénoms de tous les stagiaires ?
+SELECT nom, prenom FROM Stagiaire;
+
+-- 5. Quels sont les numéros d'inscription et les groupes des stagiaires ?
+SELECT numIns, Groupe FROM Stagiaire;
+
+-- 6. Quels sont les IDs des modules et leurs intitulés ?
+SELECT idModule, intitule FROM Module;
+
+-- 7. Quels sont les stagiaires qui sont dans le groupe "GroupeA" ?
+SELECT * FROM Stagiaire WHERE Groupe = 'GroupeA';
+
+-- 8. Quels sont les stagiaires dont le nom commence par "D" ?
+SELECT * FROM Stagiaire WHERE nom LIKE 'D%';
+
+-- 9. Quels sont les stagiaires dont le numéro de téléphone commence par "6" ?
+SELECT * FROM Stagiaire WHERE Tel LIKE '6%';
+
+-- 10. Quelle est la note maximale dans la table de contrôles ?
+SELECT MAX(note) AS NoteMaximale FROM Controle;
+
+-- 11. Quels sont les stagiaires triés par ordre alphabétique des noms ?
+SELECT * FROM Stagiaire ORDER BY nom ASC;
+
+-- 12. Quels sont les modules avec un coefficient supérieur à 3 ?
+SELECT * FROM Module WHERE coeff > 3;
+
+-- 13. Quels sont les modules dont l'intitulé contient le mot "Web" ?
+SELECT * FROM Module WHERE intitule LIKE '%Web%';
+
+-- 14. Quels sont les modules avec un coefficient pair ?
+SELECT * FROM Module WHERE coeff % 2 = 0;
+
+-- 15. Quels sont les modules avec un coefficient inférieur ou égal à 2 ?
+SELECT * FROM Module WHERE coeff <= 2;
+
+-- 16. Quels sont les modules triés par ordre alphabétique des intitulés ?
+SELECT * FROM Module ORDER BY intitule ASC;
+
+-- 17. Quels sont les modules avec un coefficient égal à 3 ?
+SELECT * FROM Module WHERE coeff = 3;
+
+-- 18. Quels sont les contrôles effectués le 15 avril 2024 ?
+SELECT * FROM Controle WHERE date = '2024-04-15';
+
+-- 19. Quels sont les contrôles où la note est supérieure ou égale à 18 ?
+SELECT * FROM Controle WHERE note >= 18;
+
+-- 20. Quels sont les contrôles effectués par le stagiaire avec le numéro d'inscription "D214541" ?
+SELECT * FROM Controle WHERE numIns = 'D214541';
+
+-- 21. Quels sont les contrôles effectués avant le 17 avril 2024 ?
+SELECT * FROM Controle WHERE date < '2024-04-17';
+
+-- 22. Quelle est la note minimale dans la table de contrôles ?
+SELECT MIN(note) AS NoteMinimale FROM Controle;
+
+-- 23. Quelle est la moyenne des notes dans la table de contrôles ?
+SELECT AVG(note) AS MoyenneNotes FROM Controle;
+
+-- 24. Quel est le nombre total de contrôles dans la table ?
+SELECT COUNT(*) AS NombreControles FROM Controle;
+
+-- 25. Quelle est la date la plus récente à laquelle un contrôle a été effectué ?
+SELECT MAX(date) AS DatePlusRecente FROM Controle;
+
+-- 26. Quelle est la date la plus ancienne à laquelle un contrôle a été effectué ?
+SELECT MIN(date) AS DatePlusAncienne FROM Controle;
+
+-- 27. Quelle est la différence en jours entre la date de naissance la plus récente et la plus ancienne parmi les stagiaires ?
+SELECT DATEDIFF(MAX(DateN), MIN(DateN)) AS DifferenceJours FROM Stagiaire;
+
+-- 28. Quel est le nombre de stagiaires dans chaque groupe et leur année de naissance la plus fréquente ?
+SELECT 
+    Groupe, 
+    COUNT(*) AS NombreStagiaires,
+    (SELECT YEAR(DateN) FROM Stagiaire s2 
+     WHERE s2.Groupe = s1.Groupe 
+     GROUP BY YEAR(DateN) 
+     ORDER BY COUNT(*) DESC 
+     LIMIT 1) AS AnneeNaissancePlusFrequente
+FROM 
+    Stagiaire s1
+GROUP BY 
+    Groupe;
+
+-- 29. Afficher le nombre de stagiaires par groupe.
+SELECT Groupe, COUNT(*) AS NombreStagiaires FROM Stagiaire GROUP BY Groupe;
+
+-- 30. Afficher le nombre de modules par coefficient.
+SELECT coeff, COUNT(*) AS NombreModules FROM Module GROUP BY coeff;
+
+-- 31. Afficher le nombre de contrôles par module.
+SELECT idModule, COUNT(*) AS NombreControles FROM Controle GROUP BY idModule;
+
+-- 32. Afficher le nombre de contrôles par stagiaire et par module.
+SELECT numIns, idModule, COUNT(*) AS NombreControles 
+FROM Controle 
+GROUP BY numIns, idModule;

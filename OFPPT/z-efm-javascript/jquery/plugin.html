@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Carrousel avec Slick</title>
+
+  <!-- jQuery obligatoire -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Slick CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+  <!-- Style personnel -->
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .carousel img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+    .carousel {
+      width: 80%;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mon carrousel d’images</h1>
+  <div class="carousel">
+    <div><img src="https://placekitten.com/600/300" alt="Chat 1"></div>
+    <div><img src="https://placekitten.com/601/300" alt="Chat 2"></div>
+    <div><img src="https://placekitten.com/602/300" alt="Chat 3"></div>
+    <div><img src="https://placekitten.com/603/300" alt="Chat 4"></div>
+  </div>
+
+  <!-- Slick JS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+  <!-- Initialisation du carrousel -->
+  <script>
+    $(document).ready(function(){
+      $('.carousel').slick({
+        autoplay: true,
+        dots: true,
+        arrows: true,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        autoplaySpeed: 2000
+      });
+    });
+  </script>
+
+</body>
+</html>

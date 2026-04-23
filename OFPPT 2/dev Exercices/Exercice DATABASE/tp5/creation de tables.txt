@@ -1,0 +1,71 @@
+-- Création de la base de données
+CREATE DATABASE IF NOT EXISTS GestionStagiaires;
+USE GestionStagiaires;
+
+-- Suppression des tables si elles existent déjà pour éviter les erreurs
+DROP TABLE IF EXISTS Controle;
+DROP TABLE IF EXISTS Module;
+DROP TABLE IF EXISTS Stagiaire;
+
+-- Création de la table Stagiaire
+CREATE TABLE Stagiaire (
+    numIns VARCHAR(10) PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50) NOT NULL,
+    DateN DATE,
+    Groupe VARCHAR(20),
+    Tel VARCHAR(15)
+);
+
+-- Création de la table Module
+CREATE TABLE Module (
+    idModule VARCHAR(10) PRIMARY KEY,
+    intitule VARCHAR(100) NOT NULL,
+    coeff INT
+);
+
+-- Création de la table Controle
+CREATE TABLE Controle (
+    numIns VARCHAR(10),
+    idModule VARCHAR(10),
+    date DATE,
+    note DECIMAL(4,2),
+    PRIMARY KEY (numIns, idModule, date),
+    FOREIGN KEY (numIns) REFERENCES Stagiaire(numIns),
+    FOREIGN KEY (idModule) REFERENCES Module(idModule)
+);
+
+-- Insertion de données dans la table Stagiaire
+INSERT INTO Stagiaire VALUES ('D214541', 'Alaoui', 'Ahmed', '2000-05-15', 'GroupeA', '0612345678');
+INSERT INTO Stagiaire VALUES ('D214542', 'Benani', 'Sara', '2001-08-20', 'GroupeB', '0623456789');
+INSERT INTO Stagiaire VALUES ('D214543', 'Chaoui', 'Karim', '1999-12-10', 'GroupeA', '0634567890');
+INSERT INTO Stagiaire VALUES ('D214544', 'Dahmani', 'Fatima', '2002-03-25', 'GroupeC', '0645678901');
+INSERT INTO Stagiaire VALUES ('D214545', 'El Amrani', 'Youssef', '2001-06-30', 'GroupeB', '0656789012');
+INSERT INTO Stagiaire VALUES ('D214546', 'Fadili', 'Nadia', '2000-09-05', 'GroupeA', '0667890123');
+INSERT INTO Stagiaire VALUES ('D214547', 'Daoudi', 'Omar', '2002-01-15', 'GroupeC', '0678901234');
+
+-- Insertion de données dans la table Module
+INSERT INTO Module VALUES ('M101', 'Algorithme', 4);
+INSERT INTO Module VALUES ('M102', 'Programmation C', 3);
+INSERT INTO Module VALUES ('M103', 'Développement Web', 3);
+INSERT INTO Module VALUES ('M104', 'Base de données', 4);
+INSERT INTO Module VALUES ('M105', 'Réseaux', 2);
+INSERT INTO Module VALUES ('M106', 'MySQL', 3);
+INSERT INTO Module VALUES ('M107', 'Web Avancé', 2);
+
+-- Insertion de données dans la table Controle
+INSERT INTO Controle VALUES ('D214541', 'M101', '2024-04-10', 16.50);
+INSERT INTO Controle VALUES ('D214541', 'M102', '2024-04-15', 15.00);
+INSERT INTO Controle VALUES ('D214542', 'M101', '2024-04-10', 18.50);
+INSERT INTO Controle VALUES ('D214542', 'M103', '2024-04-17', 14.75);
+INSERT INTO Controle VALUES ('D214543', 'M104', '2024-04-12', 17.25);
+INSERT INTO Controle VALUES ('D214543', 'M105', '2024-04-15', 16.00);
+INSERT INTO Controle VALUES ('D214544', 'M106', '2024-04-18', 19.25);
+INSERT INTO Controle VALUES ('D214545', 'M107', '2024-04-05', 13.50);
+INSERT INTO Controle VALUES ('D214546', 'M102', '2024-04-15', 15.75);
+INSERT INTO Controle VALUES ('D214547', 'M103', '2024-04-17', 12.00);
+
+-- Vérification : affichage des données
+SELECT * FROM Stagiaire;
+SELECT * FROM Module;
+SELECT * FROM Controle;

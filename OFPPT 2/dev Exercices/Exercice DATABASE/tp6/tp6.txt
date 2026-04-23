@@ -1,0 +1,133 @@
+-- Exercice 1: Création de la base de données et des tables
+
+-- 1. Créer une base de données nommée « Centreformation »
+CREATE DATABASE Centreformation;
+USE Centreformation;
+
+-- 2. Créer les tables à partir du Modèle Logique de Données (MLD)
+-- Note: Structure des tables hypothétique basée sur les références dans l'exercice
+
+CREATE TABLE SPECIALITE (
+    codeSpecialite INT PRIMARY KEY,
+    nomSpecialite VARCHAR(100),
+    description TEXT
+);
+
+CREATE TABLE FORMATEUR (
+    numCINForm VARCHAR(20) PRIMARY KEY,
+    nomForm VARCHAR(50),
+    prenomForm VARCHAR(50),
+    telForm VARCHAR(15),
+    emailForm VARCHAR(100),
+    codeSpecialite INT,
+    FOREIGN KEY (codeSpecialite) REFERENCES SPECIALITE(codeSpecialite)
+);
+
+CREATE TABLE FORMATION (
+    codeForm INT PRIMARY KEY,
+    titreForm VARCHAR(100),
+    dureeForm INT,
+    prixForm DECIMAL(10,2),
+    codeSpecialite INT,
+    FOREIGN KEY (codeSpecialite) REFERENCES SPECIALITE(codeSpecialite)
+);
+
+CREATE TABLE SESSION (
+    codeSess INT PRIMARY KEY,
+    dateDebut DATE,
+    dateFin DATE,
+    codeForm INT,
+    numCINForm VARCHAR(20),
+    FOREIGN KEY (codeForm) REFERENCES FORMATION(codeForm),
+    FOREIGN KEY (numCINForm) REFERENCES FORMATEUR(numCINForm)
+);
+
+CREATE TABLE ETUDIANT (
+    numCINEtu VARCHAR(20) PRIMARY KEY,
+    nomEtu VARCHAR(50),
+    prenomEtu VARCHAR(50),
+    dateNaissEtu DATE,
+    villeEtu VARCHAR(50),
+    niveauEtu VARCHAR(50)
+);
+
+CREATE TABLE INSCRIPTION (
+    codeSess INT,
+    numCINEtu VARCHAR(20),
+    typeCours VARCHAR(50),
+    dateInscription DATE,
+    PRIMARY KEY (codeSess, numCINEtu),
+    FOREIGN KEY (codeSess) REFERENCES SESSION(codeSess),
+    FOREIGN KEY (numCINEtu) REFERENCES ETUDIANT(numCINEtu)
+);
+
+-- 3. Ajouter une contrainte NOT NULL sur la colonne typeCours de la table INSCRIPTION
+ALTER TABLE INSCRIPTION MODIFY typeCours VARCHAR(50) NOT NULL;
+
+-- 4. Ajouter une contrainte CHECK dans la table SESSION pour s'assurer que dateFin > dateDebut
+ALTER TABLE SESSION ADD CONSTRAINT check_dates CHECK (dateFin > dateDebut);
+
+-- 5. Ajouter une colonne nommée Active dans la table SPECIALITE
+ALTER TABLE SPECIALITE ADD COLUMN Active BOOLEAN;
+
+-- Exercice 3: Modifications et requêtes
+
+-- 1. Modifier les données de la colonne « niveauEtu » dans la table ETUDIANT
+UPDATE ETUDIANT SET niveauEtu = 'Bac+ 5' WHERE niveauEtu = 'Master';
+UPDATE ETUDIANT SET niveauEtu = 'Bac+ 4' WHERE niveauEtu = 'Bachelor';
+UPDATE ETUDIANT SET niveauEtu = 'Doctorat' WHERE niveauEtu = 'Phd';
+
+-- 2. Renommer le titre de la formation 11 avec « développement Java »
+UPDATE FORMATION SET titreForm = 'développement Java' WHERE codeForm = 11;
+
+-- 3. Ajouter une colonne « numInscription » dans la table INSCRIPTION
+ALTER TABLE INSCRIPTION ADD COLUMN numInscription VARCHAR(50);
+UPDATE INSCRIPTION SET numInscription = CONCAT(codeSess, numCINEtu);
+
+-- 4. Corriger l'erreur pour l'étudiant Alami
+-- Hypothèse: Il faut supprimer l'étudiant car c'est une erreur
+DELETE FROM INSCRIPTION WHERE numCINEtu IN (
+    SELECT numCINEtu FROM ETUDIANT 
+    WHERE nomEtu = 'Alami' AND dateNaissEtu = '1987-01-02' AND villeEtu = 'Kenitra'
+);
+DELETE FROM ETUDIANT 
+WHERE nomEtu = 'Alami' AND dateNaissEtu = '1987-01-02' AND villeEtu = 'Kenitra';
+
+-- 5. Changer les cours d'Aicha en distanciel
+UPDATE INSCRIPTION SET typeCours = 'distanciel' 
+WHERE numCINEtu IN (
+    SELECT numCINEtu FROM ETUDIANT WHERE prenomEtu = 'Aicha'
+);
+
+-- 6. Consulter le contenu de toutes les tables
+SELECT * FROM SPECIALITE;
+SELECT * FROM FORMATEUR;
+SELECT * FROM FORMATION;
+SELECT * FROM SESSION;
+SELECT * FROM ETUDIANT;
+SELECT * FROM INSCRIPTION;
+
+-- 7. Donner la liste des étudiants qui sont de la ville de Tanger
+SELECT * FROM ETUDIANT WHERE villeEtu = 'Tanger';
+
+-- 8. Donner la liste des formations qui coûtent plus de 3000 Dhs
+SELECT * FROM FORMATION WHERE prixForm > 3000;
+
+-- 9. Pour chaque formation, donner le prix journalier
+SELECT codeForm, titreForm, prixForm, dureeForm, prixForm/dureeForm AS prix_journalier 
+FROM FORMATION;
+
+-- 10. Donner la liste des sessions ouvertes de la formation dont le code est 11
+SELECT * FROM SESSION 
+WHERE codeForm = 11 
+AND dateFin > CURRENT_DATE();
+
+-- 11. Donner la liste des numéros CIN des étudiants inscrits dans la session 1302, classés par ordre alphabétique
+SELECT E.numCINEtu 
+FROM ETUDIANT E 
+JOIN INSCRIPTION I ON E.numCINEtu = I.numCINEtu 
+WHERE I.codeSess = 1302 
+ORDER BY E.nomEtu, E.prenomEtu;
+
+-- 12. Donner la liste des spécialités actives
+SELECT * FROM SPECIALITE WHERE Active = TRUE;

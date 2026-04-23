@@ -1,0 +1,3 @@
+diagramme de gantt 
+modélisation uml
+les langage de programmation: C/PHP/HTML+CSS/PYTHON

@@ -1,0 +1,7 @@
+[
+    {"id": 1, "nom": "Alice Dupont", "salaire": 3500},
+    {"id": 2, "nom": "Mohamed Khelifa", "salaire": 9000},
+    {"id": 3, "nom": "aucie Martin", "salaire": 3900},
+    {"id": 4, "nom": "Jean Lefèvre", "salaire": 3100},
+    {"id": 5, "nom": "atima Zahra", "salaire": 1}
+]
