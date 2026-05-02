@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="website icon" href="img/icons8-chapeau-de-diplôme-50.png" type="name" >
+    <title>Login Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="loading-overlay">
+    <div id="loading-logo">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<div id="main-content">
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="img/logo.jpg" alt="Logo">
+            </a>
+            <a class="navbar-brand-text" href="index.html">
+                go to home
+            </a>
+        </div>
+    </nav>
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card  custum_card shadow-lg p-4">
+            <div class="text-center mb-4">
+                <h3 class="mb-3">Student Login</h3>
+                <p class="text-muted" style="color: white">Welcome back! Please log in to your account.</p>
+            </div>
+            <form>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe" class="form-check-label">Remember me</label>
+                    </div>
+                    <a href="#" class="text-decoration-none">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn BtnSign w-100">Login</button>
+            </form>
+            <div class="text-center mt-4">
+                <p class="mb-0">Don't have an account? <a href="sign_up.html" class="text-primary">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <div>
+                <span>©2025 Educate</span>
+            </div>
+            <div>
+                <span>
+                    Follow Us :
+                    <a href="https://fr-fr.facebook.com/"><img src="img/icons8-facebook-50.png"></a>
+                    <a href="https://www.instagram.com/"><img src="img/icons8-instagram-48.png"></a>
+                    <a href="https://x.com/"><img src="img/icons8-twitter-50.png"></a>
+                    <a href="https://www.youtube.com/"><img src="img/icons8-youtube-50.png"></a>
+                </span>
+            </div>
+            <div>
+                <a href="#contact">Contact</a>
+                <a href="#mission">Our Mission</a>
+                <a href="#">Privacy</a>
+                <a href="#"><img src="img/up.png" alt="up"></a>
+            </div>
+        </div>
+    </footer>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const mainContent = document.getElementById('main-content');
+
+        // Simuler un temps de chargement
+        setTimeout(() => {
+            loadingOverlay.style.opacity = '0';
+            loadingOverlay.style.transition = 'opacity 0.5s ease-out';
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+                mainContent.style.display = 'block';
+            }, 700);
+        }, 2500); // Ajustez ce délai selon vos besoins
+    });
+</script>
+</body>
+</html>
